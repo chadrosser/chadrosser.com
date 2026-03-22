@@ -1,0 +1,21 @@
+title: Chad Rosser
+email: rosserchad@gmail.com
+description: Customer Success Engineer at Outreach. Builder of things.
+baseurl: ""
+url: "https://chadrosser.com"
+github_username: chadrosser
+
+plugins:
+  - jekyll-feed
+
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+  - tailwind.config.js
+  - script.js
+  - src/
+  - dist/
