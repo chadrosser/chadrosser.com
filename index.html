@@ -822,7 +822,7 @@
         io.unobserve(e.target);
       }
     });
-  }, { threshold: 0.08 });
+  }, { threshold: 0 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
   const sections = document.querySelectorAll('[id]');
