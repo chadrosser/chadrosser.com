@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -703,10 +705,14 @@
       </a>
     </div>
     -->
-    <div class="writing-placeholder reveal">
-      <div class="writing-placeholder-icon">✏️</div>
-      <h3>Coming soon</h3>
-      <p>Writing about technical customer success, CRM integration patterns, AI workflow optimisation, and lessons from building side projects. First post coming soon.</p>
+    <div class="writing-list">
+      {% for post in site.posts %}
+      <a href="{{ post.url }}" class="post-row">
+        <span class="post-date">{{ post.date | date: "%b %Y" }}</span>
+        <span class="post-title">{{ post.title }}</span>
+        <span class="post-cat">{{ post.categories | first }}</span>
+      </a>
+      {% endfor %}
     </div>
   </div>
 </div>
