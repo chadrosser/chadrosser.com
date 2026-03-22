@@ -1,116 +1,834 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chad Rosser - Portfolio</title>
-    <link href="./dist/output.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chad Rosser</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #f5f3ee;
+      --bg2:       #edeae3;
+      --surface:   #ffffff;
+      --ink:       #18181b;
+      --ink2:      #52525b;
+      --ink3:      #a1a1aa;
+      --accent:    #1d4ed8;
+      --accent-bg: #eff6ff;
+      --green:     #16a34a;
+      --amber:     #d97706;
+      --border:    rgba(0,0,0,0.08);
+      --border2:   rgba(0,0,0,0.14);
+      --r:         10px;
+      --ease:      cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Geist', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      padding: 6px 8px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+      white-space: nowrap;
+    }
+
+    .nav-link {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--ink2);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 100px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-link:hover { color: var(--ink); background: var(--bg); }
+    .nav-link.active { color: var(--ink); background: var(--bg); }
+
+    .nav-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--border2);
+      flex-shrink: 0;
+    }
+
+    /* LAYOUT */
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* HERO */
+    #home { padding-top: 140px; padding-bottom: 80px; }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: end;
+    }
+
+    .hero-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      background: var(--accent-bg);
+      border: 1px solid rgba(29,78,216,0.15);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+    .hero-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3.2rem, 6vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .hero-name em { font-style: italic; color: var(--ink2); }
+
+    .hero-sub {
+      margin-top: 24px;
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink2);
+      max-width: 540px;
+    }
+
+    .hero-links { display: flex; align-items: center; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 11px 22px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: 'Geist', sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-dark { background: var(--ink); color: #fff; }
+    .btn-dark:hover { background: #333; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.18); }
+
+    .btn-ghost { background: transparent; color: var(--ink2); border: 1px solid var(--border2); }
+    .btn-ghost:hover { color: var(--ink); border-color: var(--ink); transform: translateY(-1px); }
+
+    .hero-aside { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+
+    .hero-stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 16px 22px;
+      text-align: right;
+      min-width: 160px;
+    }
+
+    .hero-stat-val {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .hero-stat-label { font-size: 0.72rem; color: var(--ink3); margin-top: 3px; }
+
+    /* SECTIONS */
+    .section { padding: 88px 0; }
+    .section + .section { border-top: 1px solid var(--border); }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink3);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 72px;
+      align-items: start;
+      margin-top: 48px;
+    }
+
+    .about-body p { font-size: 1rem; font-weight: 300; line-height: 1.82; color: var(--ink2); margin-bottom: 18px; }
+    .about-body p strong { color: var(--ink); font-weight: 600; }
+
+    .about-pillars { display: flex; flex-direction: column; gap: 3px; }
+
+    .pillar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px 24px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .pillar:hover { border-color: var(--border2); box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+
+    .pillar-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+
+    .pillar-icon {
+      width: 28px; height: 28px;
+      background: var(--bg2);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .pillar h4 { font-size: 0.875rem; font-weight: 600; }
+    .pillar p { font-size: 0.82rem; color: var(--ink2); line-height: 1.6; padding-left: 38px; }
+
+    /* WHAT I DO */
+    .wid-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+
+    .wid-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px; }
+
+    .wid-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.2rem;
+      color: var(--bg2);
+      line-height: 1;
+      margin-bottom: 16px;
+      -webkit-text-stroke: 1.5px var(--ink3);
+    }
+
+    .wid-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 10px; }
+    .wid-card p { font-size: 0.82rem; color: var(--ink2); line-height: 1.65; }
+
+    .wid-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 16px; }
+
+    .wid-tag {
+      font-size: 0.7rem; font-weight: 500;
+      color: var(--ink2); background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 5px; padding: 2px 8px;
+    }
+
+    /* PROJECTS */
+    .projects-intro {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+    .proj {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 30px 24px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.2s var(--ease);
+    }
+
+    .proj:hover { border-color: var(--border2); box-shadow: 0 8px 40px rgba(0,0,0,0.09); transform: translateY(-3px); }
+
+    .proj-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .proj-emoji { font-size: 1.4rem; line-height: 1; }
+    .proj-ext { font-size: 0.75rem; color: var(--ink3); transition: color 0.15s, transform 0.15s; }
+    .proj:hover .proj-ext { color: var(--accent); transform: translate(2px, -2px); }
+
+    .proj h3 { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
+    .proj-desc { font-size: 0.845rem; color: var(--ink2); line-height: 1.65; flex: 1; }
+
+    .proj-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+
+    .proj-status {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.7rem; font-weight: 600;
+      color: var(--ink3); background: var(--bg);
+      border-radius: 100px; padding: 3px 10px;
+    }
+
+    .proj-status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ink3); }
+    .proj-status-dot.live { background: var(--green); }
+    .proj-status-dot.wip  { background: var(--amber); }
+
+    .proj-stack { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .stack-tag {
+      font-size: 0.7rem; font-weight: 500;
+      color: var(--ink2); background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px; padding: 2px 7px;
+    }
+
+    .proj.featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      padding: 36px 40px;
+    }
+
+    .proj.featured .proj-left { display: flex; flex-direction: column; gap: 12px; }
+    .proj.featured .proj-right { display: flex; flex-direction: column; justify-content: flex-end; gap: 12px; }
+
+    .proj-featured-label {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .proj.featured h3 { font-size: 1.3rem; }
+    .proj.featured .proj-desc { font-size: 0.9rem; }
+
+    /* WRITING */
+    .writing-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .writing-list { border-top: 1px solid var(--border); }
+
+    .post-row {
+      display: grid;
+      grid-template-columns: 100px 1fr 130px;
+      gap: 24px;
+      align-items: baseline;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.15s;
+    }
+
+    .post-row:hover .post-title { color: var(--accent); }
+    .post-date { font-size: 0.78rem; color: var(--ink3); }
+    .post-title { font-size: 0.95rem; font-weight: 500; transition: color 0.15s; }
+    .post-cat { font-size: 0.72rem; font-weight: 600; text-align: right; color: var(--ink3); background: var(--bg2); border-radius: 5px; padding: 3px 10px; white-space: nowrap; }
+
+    .writing-placeholder {
+      text-align: center; padding: 72px 24px;
+      border: 1.5px dashed var(--border2);
+      border-radius: 14px; background: var(--surface);
+    }
+
+    .writing-placeholder-icon { font-size: 2.2rem; margin-bottom: 14px; }
+    .writing-placeholder h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .writing-placeholder p { font-size: 0.85rem; color: var(--ink2); max-width: 400px; margin: 0 auto; line-height: 1.65; }
+
+    /* RESUME */
+    .resume-cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; margin-top: 48px; align-items: start; }
+
+    .resume-col h3 {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 24px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    }
+
+    .resume-item { padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
+    .resume-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .resume-item-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 3px; }
+    .resume-company { font-size: 0.9rem; font-weight: 600; }
+    .resume-period { font-size: 0.75rem; color: var(--ink3); white-space: nowrap; }
+    .resume-role { font-size: 0.82rem; color: var(--accent); font-weight: 500; margin-bottom: 8px; }
+
+    .resume-bullets { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+
+    .resume-bullets li {
+      font-size: 0.82rem; color: var(--ink2); line-height: 1.6;
+      padding-left: 14px; position: relative;
+    }
+
+    .resume-bullets li::before { content: '–'; position: absolute; left: 0; color: var(--ink3); }
+
+    .strength-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+
+    .strength-tag {
+      font-size: 0.78rem; font-weight: 500;
+      color: var(--ink2); background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 12px;
+    }
+
+    .resume-cta {
+      margin-top: 48px; background: var(--ink);
+      border-radius: 14px; padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+
+    .resume-cta-text h3 { font-family: 'Instrument Serif', serif; font-size: 1.4rem; color: #fff; letter-spacing: -0.02em; }
+    .resume-cta-text p { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+    .btn-white {
+      background: #fff; color: var(--ink);
+      font-size: 0.875rem; font-weight: 600; font-family: 'Geist', sans-serif;
+      padding: 12px 24px; border-radius: 8px; text-decoration: none;
+      white-space: nowrap; transition: all 0.15s; border: none; cursor: pointer;
+      display: inline-flex; align-items: center;
+    }
+
+    .btn-white:hover { background: #f0f0f0; transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0 56px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+
+    .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 0.82rem; color: var(--ink3); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-copy { font-size: 0.78rem; color: var(--ink3); }
+
+    /* ANIMATIONS */
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .anim-0 { opacity: 0; animation: fadeSlide 0.7s var(--ease) forwards 0.05s; }
+    .anim-1 { opacity: 0; animation: fadeSlide 0.7s var(--ease) forwards 0.15s; }
+    .anim-2 { opacity: 0; animation: fadeSlide 0.7s var(--ease) forwards 0.28s; }
+    .anim-3 { opacity: 0; animation: fadeSlide 0.7s var(--ease) forwards 0.42s; }
+    .anim-4 { opacity: 0; animation: fadeSlide 0.7s var(--ease) forwards 0.56s; }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 860px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-aside { flex-direction: row; }
+      .hero-stat { min-width: 0; flex: 1; text-align: left; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .wid-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .proj.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      .resume-cols { grid-template-columns: 1fr; gap: 40px; }
+      .post-row { grid-template-columns: 80px 1fr; }
+      .post-cat { display: none; }
+      footer { flex-direction: column; text-align: center; gap: 16px; }
+      .resume-cta { flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 600px) {
+      .page { padding: 0 20px; }
+      nav { width: calc(100% - 32px); justify-content: center; }
+      .hero-aside { display: none; }
+      #home { padding-top: 110px; }
+    }
+  </style>
 </head>
-<body class="bg-accent1 text-gray-900">
+<body>
 
-    <!-- Header -->
-    <header class="bg-primary py-4">
-        <nav>
-            <ul class="flex justify-center space-x-6">
-                <li><a href="#home" class="text-accent1 font-bold hover:text-secondary">Home</a></li>
-                <li><a href="#about" class="text-accent1 font-bold hover:text-secondary">About Me</a></li>
-                <li><a href="#projects" class="text-accent1 font-bold hover:text-secondary">Projects</a></li>
-            </ul>
-        </nav>
-    </header>
+<nav>
+  <a href="#home"     class="nav-link active">Home</a>
+  <div class="nav-dot"></div>
+  <a href="#about"    class="nav-link">About</a>
+  <div class="nav-dot"></div>
+  <a href="#projects" class="nav-link">Projects</a>
+  <div class="nav-dot"></div>
+  <a href="#writing"  class="nav-link">Writing</a>
+  <div class="nav-dot"></div>
+  <a href="#resume"   class="nav-link">Résumé</a>
+</nav>
 
-    <!-- Home Section -->
-    <section id="home" class="py-20 text-center bg-gradient-to-r from-secondary via-primary to-accent2">
-        <h1 class="text-5xl font-bold text-white mb-4">Chad Rosser - Senior Quality Assurance Engineer</h1>
-        <p class="text-lg text-white">I'm a software developer with a focus on QA automation, blending creativity and technical expertise to build efficient solutions.</p>
-    </section>
+<div class="page" id="home">
+  <div class="section hero-inner">
+    <div>
+      <div class="hero-eyebrow anim-0">
+        <span class="hero-badge"><span class="badge-dot"></span>Customer Success Engineer @ Outreach</span>
+      </div>
+      <h1 class="hero-name anim-1">Chad<br/><em>Rosser.</em></h1>
+      <p class="hero-sub anim-2">
+        I sit at the intersection of deep technical expertise and genuine customer empathy — architecting CRM integrations, optimising AI workflows, and building things on the side because I can't help it.
+      </p>
+      <div class="hero-links anim-3">
+        <a href="#projects" class="btn btn-dark">See my work ↓</a>
+        <a href="https://github.com/chadrosser" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+        <a href="https://linkedin.com/in/chadrosser" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
+        <a href="mailto:rosserchad@gmail.com" class="btn btn-ghost">Email ↗</a>
+      </div>
+    </div>
+    <div class="hero-aside anim-4">
+      <div class="hero-stat">
+        <div class="hero-stat-val">10+</div>
+        <div class="hero-stat-label">Years in software</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">CSE</div>
+        <div class="hero-stat-label">@ Outreach.io</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">ATL</div>
+        <div class="hero-stat-label">Atlanta, GA</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- About Section -->
-    <section id="about" class="py-20 text-center bg-accent1">
-        <h2 class="text-3xl font-bold text-primary">About Me</h2>
-        <p class="mt-4 max-w-2xl mx-auto">
-            With a diverse background spanning software development, testing, automation, and product management, I bring a unique blend of technical expertise and strategic insight to every project. My ability to rapidly grasp new concepts and integrate them into practical solutions sets me apart. As a Subject Matter Expert in complex systems, I've consistently driven improvements in product quality and operational efficiency. Leveraging deep product knowledge gained from years in customer success, I've developed comprehensive test scenarios and contributed to significant enhancements in product reliability. I excel at collaborating across departments, translating technical challenges into actionable strategies, and communicating effectively to drive results. My approach combines common sense with honesty, ensuring that every solution meets technical requirements and aligns with business goals. If you're seeking someone who can deliver innovative solutions and drive impactful improvements while fostering cross-functional collaboration, let’s connect and explore how I can contribute to your team.
-        </p>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="h-screen flex items-center justify-center bg-accent1 text-center">
-        <div class="text-center">
-            <h2 class="text-3xl font-bold text-primary mb-8">Projects</h2>
-            <div class="grid grid-cols-2 gap-6 justify-center">
-                
-                <!-- Project Card 1 -->
-                <div class="bg-accent2 border border-primary p-6 h-[350px] w-[350px] rounded flex flex-col">
-                    <h3 class="text-2xl font-semibold text-primary">Playwright Tests</h3>
-                    <p class="mt-4 flex-grow">A simple test automation framework to run front-end tests.</p>
-                    <div class="mt-4 flex flex-wrap justify-center gap-2 bg-primary text-accent1 rounded-md p-3">
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">JavaScript</span>
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">Node.js</span>
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">Playwright</span>
-                    </div>
-                    <div class="flex justify-center mt-4">
-                        <a href="https://github.com/chadrosser/playwright_tests" target="_blank" class="text-primary font-bold hover:text-secondary">GitHub Repo</a>
-                    </div>
-                </div>
-
-                <!-- Project Card 2 -->
-                <div class="bg-accent2 border border-primary p-6 h-[350px] w-[350px] rounded flex flex-col">
-                    <h3 class="text-2xl font-semibold text-primary">Cypress Tests</h3>
-                    <p class="mt-4 flex-grow">A simple test automation framework to run back-end tests.</p>
-                    <div class="mt-4 flex flex-wrap justify-center gap-2 bg-primary text-accent1 rounded-md p-3">
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">TypeScript</span>
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">Node.js</span>
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">Cypress</span>
-                    </div>
-                    <div class="flex justify-center mt-4">
-                        <a href="https://github.com/chadrosser/cypress_tests" target="_blank" class="text-primary font-bold hover:text-secondary">GitHub Repo</a>
-                    </div>
-                </div>
-
-                <!-- Project Card 3 -->
-                <div class="bg-accent2 border border-primary p-6 h-[350px] w-[350px] rounded flex flex-col">
-                    <h3 class="text-2xl font-semibold text-primary">Python Data Visualization</h3>
-                    <p class="mt-4 flex-grow">Utilizies Python and libraries to visualize data.</p>
-                    <div class="mt-4 flex flex-wrap justify-center gap-2 bg-primary text-accent1 rounded-md p-3">
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">Python</span>
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">Pandas</span>
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">Plotly</span>
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">Jupyter</span>
-                    </div>
-                    <div class="flex justify-center mt-4">
-                        <a href="https://github.com/chadrosser/python_tests" target="_blank" class="text-primary font-bold hover:text-secondary">GitHub Repo</a>
-                    </div>
-                </div>
-
-                <!-- Project Card 4 -->
-                <div class="bg-accent2 border border-primary p-6 h-[350px] w-[350px] rounded flex flex-col">
-                    <h3 class="text-2xl font-semibold text-primary">Fantasy Playoff Pickem</h3>
-                    <p class="mt-4 flex-grow">A game that I created to pick teams for the NFL Playoffs and Superbowl. Still a work in progress</p>
-                    <div class="mt-4 flex flex-wrap justify-center gap-2 bg-primary text-accent1 rounded-md p-3">
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">React</span>
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">TypeScript</span>
-                        <span class="bg-accent2 text-primary px-4 py-1 rounded-md font-bold hover:text-secondary">Node.js</span>
-                    </div>
-                    <div class="flex justify-center mt-4">
-                        <a href="https://github.com/chadrosser/nflpickem" target="_blank" class="text-primary font-bold hover:text-secondary">GitHub Repo</a>
-                    </div>
-                </div>
-            </div>
+<div class="page">
+  <div class="section" id="about">
+    <p class="section-label reveal">About me</p>
+    <h2 class="section-title reveal">Technical depth.<br/>Customer focus.</h2>
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <p>I'm a <strong>Customer Success Engineer at Outreach</strong>, where I serve as the technical backbone of the customer success motion. My role spans CRM architecture, AI configuration, and revenue workflow performance — making sure customers don't just onboard, they actually succeed long-term.</p>
+        <p>My background is a little unusual: I came up through customer success and QA engineering before landing in this role, which means I bring a rare combination of <strong>engineering instinct and customer empathy</strong>. I know how to find root causes, but I also know how to explain them to a VP of Sales at 9am on a Monday.</p>
+        <p>Outside of work, I'm building. Side projects, personal tools, websites — I enjoy the full arc from idea to something real and deployed.</p>
+      </div>
+      <div class="about-pillars reveal">
+        <div class="pillar">
+          <div class="pillar-head">
+            <div class="pillar-icon">🔗</div>
+            <h4>Integration Architecture</h4>
+          </div>
+          <p>CRM sync audits, Salesforce & Dynamics health reviews, scalable fixes that prevent problems before they compound.</p>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-4 bg-primary text-center">
-        <p class="text-accent1">&copy; 2024 Chad Rosser. All Rights Reserved.</p>
-        <div class="mt-4">
-            <a href="https://github.com/chadrosser" target="_blank" class="text-accent1 hover:text-secondary mx-2">
-                <i class="fab fa-github fa-2x"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/chadrosser" target="_blank" class="text-accent1 hover:text-secondary mx-2">
-                <i class="fab fa-linkedin fa-2x"></i>
-            </a>
+        <div class="pillar">
+          <div class="pillar-head">
+            <div class="pillar-icon">🤖</div>
+            <h4>AI & Workflow Optimisation</h4>
+          </div>
+          <p>Agent performance audits, credit usage analysis, and structured guidance to turn AI configuration into measurable outcomes.</p>
         </div>
-    </footer>
+        <div class="pillar">
+          <div class="pillar-head">
+            <div class="pillar-icon">🛠️</div>
+            <h4>Builder at Heart</h4>
+          </div>
+          <p>Side projects, internal playbooks, audit frameworks — I ship real things, not just tickets.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="section" id="what-i-do">
+    <p class="section-label reveal">What I do</p>
+    <h2 class="section-title reveal">Where I spend<br/>my working hours</h2>
+    <div class="wid-grid">
+      <div class="wid-card reveal">
+        <div class="wid-num">01</div>
+        <h3>Technical Architecture</h3>
+        <p>Proactively audit CRM integrations, diagnose data integrity issues, and design scalable improvements aligned to customer goals. I own the technical health of the environments I touch.</p>
+        <div class="wid-tags">
+          <span class="wid-tag">Salesforce</span>
+          <span class="wid-tag">MS Dynamics</span>
+          <span class="wid-tag">CRM Sync</span>
+          <span class="wid-tag">Data Integrity</span>
+        </div>
+      </div>
+      <div class="wid-card reveal">
+        <div class="wid-num">02</div>
+        <h3>AI Configuration</h3>
+        <p>Assess AI agent performance, credit usage, and workflow automation maturity. Turn configuration gaps into optimisation opportunities with structured, outcome-focused guidance.</p>
+        <div class="wid-tags">
+          <span class="wid-tag">Outreach AI</span>
+          <span class="wid-tag">Agent Governance</span>
+          <span class="wid-tag">Workflow Automation</span>
+        </div>
+      </div>
+      <div class="wid-card reveal">
+        <div class="wid-num">03</div>
+        <h3>Risk & Retention</h3>
+        <p>Identify technical leading indicators of churn before they become customer conversations. Partner with CSMs to mitigate risk through architecture, not just account management.</p>
+        <div class="wid-tags">
+          <span class="wid-tag">Churn Prevention</span>
+          <span class="wid-tag">Risk Detection</span>
+          <span class="wid-tag">Cross-functional</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="section" id="projects">
+    <div class="projects-intro">
+      <div>
+        <p class="section-label reveal">Projects</p>
+        <h2 class="section-title reveal">Things I've shipped</h2>
+      </div>
+      <a href="https://github.com/chadrosser" target="_blank" class="btn btn-ghost reveal">All on GitHub ↗</a>
+    </div>
+    <div class="projects-grid">
+
+      <a href="https://github.com/chadrosser/nflpickem" target="_blank" class="proj featured reveal">
+        <div class="proj-left">
+          <span class="proj-featured-label">Featured project</span>
+          <div class="proj-top">
+            <div class="proj-emoji">🏈</div>
+            <span class="proj-ext">↗</span>
+          </div>
+          <h3>Fantasy Playoff Pickem</h3>
+          <p class="proj-desc">A full-stack web app for picking NFL playoff teams and tracking results across a league of friends. Built from scratch — database design to deployed front-end. Still evolving every season.</p>
+        </div>
+        <div class="proj-right">
+          <div class="proj-status"><span class="proj-status-dot wip"></span>In progress</div>
+          <div class="proj-stack">
+            <span class="stack-tag">React</span>
+            <span class="stack-tag">TypeScript</span>
+            <span class="stack-tag">Node.js</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="proj reveal">
+        <div class="proj-top">
+          <div class="proj-emoji">🔴</div>
+          <span class="proj-ext">↗</span>
+        </div>
+        <h3>Mass Shooting Awareness</h3>
+        <p class="proj-desc">A public awareness website focused on mass shooting data in the United States — built to surface information clearly and responsibly, because data without context doesn't help anyone.</p>
+        <div class="proj-meta">
+          <div class="proj-status"><span class="proj-status-dot live"></span>Live</div>
+        </div>
+        <div class="proj-stack">
+          <span class="stack-tag">Web</span>
+          <span class="stack-tag">Data</span>
+        </div>
+      </a>
+
+      <div class="proj reveal" style="cursor:default;">
+        <div class="proj-top">
+          <div class="proj-emoji">💼</div>
+        </div>
+        <h3>Customer-Facing Tools @ Outreach</h3>
+        <p class="proj-desc">Building internal and customer-facing web experiences as part of my CSE work — improving how customers interact with the platform and how the team operates at scale. Details available on request.</p>
+        <div class="proj-meta">
+          <div class="proj-status"><span class="proj-status-dot live"></span>Active</div>
+        </div>
+        <div class="proj-stack">
+          <span class="stack-tag">Internal</span>
+          <span class="stack-tag">Web</span>
+        </div>
+      </div>
+
+      <div class="proj reveal" style="border-style:dashed; cursor:default; background:transparent;">
+        <div class="proj-top">
+          <div class="proj-emoji" style="opacity:0.4;">✦</div>
+        </div>
+        <h3 style="color:var(--ink2);">More on the way</h3>
+        <p class="proj-desc">Always have something cooking. Follow on GitHub or check back soon.</p>
+        <div class="proj-meta">
+          <div class="proj-status"><span class="proj-status-dot wip"></span>Building</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="section" id="writing">
+    <div class="writing-header">
+      <div>
+        <p class="section-label reveal">Writing</p>
+        <h2 class="section-title reveal">Thinking out loud</h2>
+      </div>
+    </div>
+    <!--
+    POSTS: replace placeholder below with rows like:
+    <div class="writing-list">
+      <a href="/posts/slug" class="post-row">
+        <span class="post-date">Mar 2026</span>
+        <span class="post-title">Why I switched from QA to Customer Success Engineering</span>
+        <span class="post-cat">Career</span>
+      </a>
+    </div>
+    -->
+    <div class="writing-placeholder reveal">
+      <div class="writing-placeholder-icon">✏️</div>
+      <h3>Coming soon</h3>
+      <p>Writing about technical customer success, CRM integration patterns, AI workflow optimisation, and lessons from building side projects. First post coming soon.</p>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="section" id="resume">
+    <p class="section-label reveal">Résumé</p>
+    <h2 class="section-title reveal">Experience &amp; background</h2>
+    <div class="resume-cols">
+      <div class="resume-col reveal">
+        <h3>Experience</h3>
+        <div class="resume-item">
+          <div class="resume-item-head">
+            <span class="resume-company">Outreach</span>
+            <span class="resume-period">20XX – Present</span>
+          </div>
+          <div class="resume-role">Customer Success Engineer</div>
+          <ul class="resume-bullets">
+            <li>Own technical health of enterprise customer environments — CRM integrations, AI configuration, and workflow automation.</li>
+            <li>Conduct proactive Salesforce and Microsoft Dynamics audits to diagnose data integrity issues and recommend architectural improvements.</li>
+            <li>Identify technical leading indicators of churn and partner with CSMs to mitigate risk before it surfaces.</li>
+            <li>Serve as the technical bridge between Customer Success, Product, and Engineering — channeling structured customer feedback into roadmap conversations.</li>
+            <li>Develop internal playbooks and audit frameworks to scale best practices across the team.</li>
+          </ul>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-head">
+            <span class="resume-company">Previous Company</span>
+            <span class="resume-period">20XX – 20XX</span>
+          </div>
+          <div class="resume-role">Senior QA Engineer</div>
+          <ul class="resume-bullets">
+            <li>Built and maintained E2E test automation frameworks using Playwright and Cypress.</li>
+            <li>Defined QA strategy, wrote test plans, and collaborated cross-functionally to ship reliable software.</li>
+          </ul>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-head">
+            <span class="resume-company">Earlier Role</span>
+            <span class="resume-period">20XX – 20XX</span>
+          </div>
+          <div class="resume-role">Customer Success</div>
+          <ul class="resume-bullets">
+            <li>Built deep product and domain expertise through direct customer work — the foundation of how I think about technical problem-solving today.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="resume-col reveal">
+        <h3>Education &amp; Certifications</h3>
+        <div class="resume-item">
+          <div class="resume-item-head">
+            <span class="resume-company">Your University</span>
+            <span class="resume-period">Year</span>
+          </div>
+          <div class="resume-role">Degree / Major</div>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-head">
+            <span class="resume-company">Certification</span>
+            <span class="resume-period">Year</span>
+          </div>
+          <div class="resume-role">Issuing Body</div>
+        </div>
+        <h3 style="margin-top:36px;">Core Strengths</h3>
+        <div class="strength-grid">
+          <span class="strength-tag">CRM Architecture</span>
+          <span class="strength-tag">AI Optimisation</span>
+          <span class="strength-tag">Churn Prevention</span>
+          <span class="strength-tag">Technical Communication</span>
+          <span class="strength-tag">Cross-functional Partnership</span>
+          <span class="strength-tag">Python</span>
+          <span class="strength-tag">JavaScript / TypeScript</span>
+          <span class="strength-tag">React</span>
+          <span class="strength-tag">Playwright & Cypress</span>
+        </div>
+      </div>
+    </div>
+    <div class="resume-cta reveal">
+      <div class="resume-cta-text">
+        <h3>Want the full résumé?</h3>
+        <p>Download a PDF or reach out directly.</p>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="#" class="btn-white">Download PDF ↓</a>
+        <a href="mailto:rosserchad@gmail.com" class="btn btn-ghost" style="color:rgba(255,255,255,0.6);border-color:rgba(255,255,255,0.2);">Get in touch →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <footer>
+    <a href="#home" class="footer-logo">Chad Rosser</a>
+    <div class="footer-links">
+      <a href="https://github.com/chadrosser" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/chadrosser" target="_blank">LinkedIn</a>
+      <a href="mailto:rosserchad@gmail.com">Email</a>
+    </div>
+    <span class="footer-copy">© 2026 Chad Rosser</span>
+  </footer>
+</div>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), i * 55);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const navObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector('.nav-link[href="#' + e.target.id + '"]');
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => navObs.observe(s));
+</script>
 </body>
 </html>
